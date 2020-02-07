@@ -13,11 +13,12 @@ class MoviesController < ApplicationController
   def index
     @all_ratings = ['G', 'PG', 'PG-13', 'R'] #creates list with all the ratings to pick from
     @sort = params[:sort] || session[:sort] #gets the sort parameter title/release_date from url
-    @selected_ratings = params[:ratings] || Hash[@all_ratings.map {|x| [x, true]}] || session[:ratings]
+    @selected_ratings = params[:ratings] || session[:ratings] || Hash[@all_ratings.map {|x| [x, true]}] 
     @all_ratings = Hash[@all_ratings.map {|x| [x, @selected_ratings.key?(x)]}]
     session[:sort] = @sort
     session[:ratings] = @selected_ratings
-    if !params[:sort] && !params[:ratings] #remembers the session if the action is not sorting/rating
+    #remembers the session if the action is not sorting/rating
+    if !params[:sort] && !params[:ratings] 
       flash.keep
       redirect_to movies_path(:ratings => @selected_ratings, :sort => @sort) and return
     end
