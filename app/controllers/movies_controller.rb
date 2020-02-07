@@ -11,9 +11,11 @@ class MoviesController < ApplicationController
   end
 
   def index
-    @sort = params[:sort] #gets the sort parameter title/release_date from url
-    @selected_ratings = params[:ratings] || Hash[MoviesHelper.all_ratings.map {|x| [x, true]}]
+    @sort = params[:sort] !! session[:sort] #gets the sort parameter title/release_date from url
+    @selected_ratings = params[:ratings] || session[:ratings] || Hash[MoviesHelper.all_ratings.map {|x| [x, true]}]
     @all_ratings = Hash[MoviesHelper.all_ratings.map {|x| [x, @selected_ratings.key?(x)]}]
+    session[:sort] = @sort
+    session[:ratings] = @selected_ratings
     if !params[:sort] && !params[:ratings]
       flash.keep
       redirect_to movies_path(:ratings => @selected_ratings, :sort => @sort) and return
