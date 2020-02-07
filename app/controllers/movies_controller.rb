@@ -21,6 +21,7 @@ class MoviesController < ApplicationController
       flash.keep
       redirect_to movies_path(:ratings => @selected_ratings, :sort => @sort) and return
     end
+    @movies = Movie.where(:rating => @selected_ratings.keys).order @sort
   end
 
   def new
