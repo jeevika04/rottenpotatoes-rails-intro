@@ -13,8 +13,8 @@ class MoviesController < ApplicationController
   def index
     @all_ratings = ['G', 'PG', 'PG-13', 'R']
     @sort = params[:sort] #gets the sort parameter title/release_date from url
-    @selected_ratings = params[:ratings] || Hash[MoviesHelper.all_ratings.map {|x| [x, true]}]
-    @all_ratings = Hash[MoviesHelper.all_ratings.map {|x| [x, @selected_ratings.key?(x)]}]
+    @selected_ratings = params[:ratings] || Hash[@all_ratings.map {|x| [x, true]}]
+    @all_ratings = Hash[@all_ratings.map {|x| [x, @selected_ratings.key?(x)]}]
     session[:sort] = @sort
     session[:ratings] = @selected_ratings
     if !params[:sort] && !params[:ratings]
