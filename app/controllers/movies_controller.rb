@@ -17,7 +17,10 @@ class MoviesController < ApplicationController
     @all_ratings = Hash[@all_ratings.map {|x| [x, @selected_ratings.key?(x)]}]
     session[:sort] = @sort
     session[:ratings] = @selected_ratings
-    @movies = Movie.where(:rating => @selected_ratings.keys).order @sort
+    if !params[:sort] && !params[:ratings] #remembers the session if the action is not sorting/rating
+      flash.keep
+      redirect_to movies_path(:ratings => @selected_ratings, :sort => @sort) and return
+    end
   end
 
   def new
