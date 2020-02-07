@@ -12,7 +12,13 @@ class MoviesController < ApplicationController
 
   def index
     @sort = params[:sort] #gets the sort parameter title/release_date from url
-    @movies = Movie.all.order @sort #sorts list accordingly 
+    @selected_ratings = params[:ratings] || Hash[MoviesHelper.all_ratings.map {|x| [x, true]}]
+    @all_ratings = Hash[MoviesHelper.all_ratings.map {|x| [x, @selected_ratings.key?(x)]}]
+    if !params[:sort] && !params[:ratings]
+      flash.keep
+      redirect_to movies_path(:ratings => @selected_ratings, :sort => @sort) and return
+    end
+    @movies = Movie.where(:rating => @selected_ratings.keys).order @sort
     
   end
 
