@@ -7,12 +7,14 @@
       %th{:class => ("hilite" if @sort == 'title')}
         = link_to "Movie Title", 
         movies_path(:sort => :title), 
-        :id => "title_header"
+        :id => "title_header" 
+        -# Creates a link, uses hilite style when clicked 
       %th Rating
       %th{:class => ("hilite" if @sort == 'release_date')}
         = link_to "Release Date", 
         movies_path(:sort => :release_date), 
         :id => "release_date_header"
+        -# Creates a link, uses hilite style when clicked 
       %th More Info
   %tbody
     - @movies.each do |movie|
