@@ -12,7 +12,7 @@ class MoviesController < ApplicationController
 
   def index
     @all_ratings = ['G', 'PG', 'PG-13', 'R'] #creates list with all the ratings to pick from
-    @sort = params[:sort] || session[:sort] #gets the sort parameter title/release_date from url
+    @sort = params[:sort] || session[:sort] #gets the sort parameter title/release_date from url/previous session
     @selected_ratings = params[:ratings] || session[:ratings] || Hash[@all_ratings.map {|x| [x, true]}] 
     @all_ratings = Hash[@all_ratings.map {|x| [x, @selected_ratings.key?(x)]}]
     session[:sort] = @sort
